@@ -1,5 +1,5 @@
 use std::fs::{self, File};
-use std::path::{Path};
+use std::path::Path;
 use xml::reader::{XmlEvent, EventReader};
 use xml::common::{Position, TextPosition};
 use std::env;
