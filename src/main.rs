@@ -9,6 +9,7 @@ use std::str;
 use std::io::{BufReader, BufWriter};
 use std::sync::{Arc, Mutex};
 use std::thread;
+use std::panic;
 
 mod model;
 use model::*;
@@ -221,10 +222,18 @@ fn entry() -> Result<(), ()> {
 
             {
                 let model = Arc::clone(&model);
+
+                // Exit process in case indexing thread crashes
+                panic::set_hook(Box::new(|panic_info| {
+                    eprintln!("ERROR: Panic occurred!: {:?} Exiting process..", panic_info);
+                    std::process::exit(1);
+                }));
+
                 thread::spawn(move || {
                     let mut processed = 0;
-                    // TODO: what should we do in case indexing thread crashes
+
                     add_folder_to_model(Path::new(&dir_path), Arc::clone(&model), &mut processed).unwrap();
+
                     if processed > 0 {
                         let model = model.lock().unwrap();
                         save_model_as_json(&model, &index_path).unwrap();
