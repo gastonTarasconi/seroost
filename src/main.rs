@@ -136,24 +136,26 @@ fn add_folder_to_model(dir_path: &Path, model: Arc<Mutex<Model>>, processed: &mu
             continue 'next_file;
         }
 
-        let file_type = file.file_type().map_err(|err| {
-            eprintln!("ERROR: could not determine type of file {file_path}: {err}",
-                      file_path = file_path.display());
-        })?;
-        let last_modified = file.metadata().map_err(|err| {
+        let file_metadata = file.metadata().map_err(|err| {
             eprintln!("ERROR: could not get the metadata of file {file_path}: {err}",
                       file_path = file_path.display());
-        })?.modified().map_err(|err| {
-            eprintln!("ERROR: could not get the last modification date of file {file_path}: {err}",
-                      file_path = file_path.display())
         })?;
+
+        let file_type = file_metadata.file_type();
+
+        if file_type.is_symlink() {
+            continue 'next_file;
+        }
 
         if file_type.is_dir() {
             add_folder_to_model(&file_path, Arc::clone(&model), processed)?;
             continue 'next_file;
         }
 
-        // TODO: how does this work with symlinks?
+        let last_modified = file_metadata.modified().map_err(|err| {
+            eprintln!("ERROR: could not get the last modification date of file {file_path}: {err}",
+                      file_path = file_path.display())
+        })?;
 
         let mut model = model.lock().unwrap();
         if model.requires_reindexing(&file_path, last_modified) {
