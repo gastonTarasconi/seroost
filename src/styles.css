@@ -1,0 +1,76 @@
+/* RESET BROWSER DEFAULTS */
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',    'Roboto', 'Oxygen','Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1;
+  margin: 1rem;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Personal styles */
+
+li {
+  display: flex;
+  gap: 1rem;
+}
+
+h1 {
+  padding-bottom: 1rem;
+  font-size: 3rem;
+}
+
+label {
+  font-size: 0.9rem;
+}
+
+input[type="text"] {
+  padding: 0.5rem;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+input[type="text"]:focus {
+  border-color: #4CAF50;
+}
+
+.search-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.results-container ul {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.results-container ul:empty {
+  display: none;
+}

@@ -96,6 +96,12 @@ fn serve_request(model: Arc<Mutex<Model>>, request: Request) -> io::Result<()> {
         (Method::Get, "/api/stats") => {
             serve_api_stats(model, request)
         }
+        (Method::Get, "/styles.css") => {
+            serve_bytes(request, include_bytes!("styles.css"), "text/css")
+        }
+        (Method::Get, "/favicon.ico") => {
+            serve_bytes(request, include_bytes!("favicon.ico"), "image/x-icon")
+        }
         (Method::Get, "/index.js") => {
             serve_bytes(request, include_bytes!("index.js"), "text/javascript; charset=utf-8")
         }
