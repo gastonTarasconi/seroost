@@ -16,6 +16,9 @@ mod server;
 mod lexer;
 pub mod snowball;
 
+const JSON_INDEX_DB_NAME: &str = ".seroost.json";
+const SEVER_DEFAULT_IP_PORT: &str = "192.168.100.200:6969";
+
 fn parse_entire_txt_file(file_path: &Path) -> Result<String, ()> {
     fs::read_to_string(file_path).map_err(|err| {
         eprintln!("ERROR: coult not open file {file_path}: {err}", file_path = file_path.display());
@@ -192,9 +195,9 @@ fn entry() -> Result<(), ()> {
             })?;
 
             let mut index_path = Path::new(&dir_path).to_path_buf();
-            index_path.push(".seroost.json");
+            index_path.push(JSON_INDEX_DB_NAME);
 
-            let address = args.next().unwrap_or("127.0.0.1:6969".to_string());
+            let address = args.next().unwrap_or(SEVER_DEFAULT_IP_PORT.to_string());
 
             let exists = index_path.try_exists().map_err(|err| {
                 eprintln!("ERROR: could not check the existence of file {index_path}: {err}",
