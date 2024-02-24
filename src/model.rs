@@ -47,10 +47,10 @@ impl Model {
             for token in &tokens {
                 rank += compute_tf(token, doc) * compute_idf(&token, self.docs.len(), &self.df);
             }
-            // TODO: investigate the sources of NaN
-            if !rank.is_nan() {
-                result.push((path.clone(), rank));
+            if rank.is_nan() {
+                eprintln!("[Error] rank is NaN for this file {path:?}");
             }
+            result.push((path.clone(), rank));
         }
         result.sort_by(|(_, rank1), (_, rank2)| rank1.partial_cmp(rank2).expect(&format!("{rank1} and {rank2} are not comparable")));
         result.reverse();
@@ -80,7 +80,11 @@ impl Model {
             }
         }
 
-        self.docs.insert(file_path, Doc {count, tf, last_modified});
+        if count > 0 {
+            self.docs.insert(file_path, Doc {count, tf, last_modified});
+        } else {
+            eprintln!("WARN: The file {file_path:?} has no words");
+        }
     }
 }
 
