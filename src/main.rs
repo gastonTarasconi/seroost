@@ -163,7 +163,6 @@ fn add_folder_to_model(dir_path: &Path, model: Arc<Mutex<Model>>, processed: &mu
 
             let content = match parse_entire_file_by_extension(&file_path) {
                 Ok(content) => content.chars().collect::<Vec<_>>(),
-                // TODO: still add the skipped files to the model to prevent their reindexing in the future
                 Err(()) => continue 'next_file,
             };
 
