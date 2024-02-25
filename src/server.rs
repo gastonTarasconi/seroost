@@ -1,5 +1,6 @@
 use std::str;
-use std::io;
+use std::io::{self, Read};
+use std::fs::File;
 use std::sync::{Arc, Mutex};
 
 use super::model::*;
@@ -100,6 +101,21 @@ fn serve_request(model: Arc<Mutex<Model>>, request: Request) -> io::Result<()> {
         .expect("That we didn't put any garbage in the headers");
 
     println!("received request! method: {:?}, url: {:?}", request.method(), request.url());
+
+    if request.method() == &Method::Get && request.url().starts_with("/static") {
+        // TODO: security issue, can open whatever file in the server !!!!
+        // TODO: not working for files with special chars
+        let file_path = request.url().replace("/static/", "");
+
+        if let Ok(mut file) = File::open(file_path) {
+            let mut content = Vec::new();
+            file.read_to_end(&mut content)?;
+
+            return Ok(request.respond(Response::from_data(content))?);
+        } else {
+            return serve_500(request, "could not open file", "could not open file");
+        }
+    }
 
     match (request.method(), request.url()) {
         (Method::Post, "/api/search") => {
