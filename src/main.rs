@@ -66,7 +66,7 @@ fn parse_entire_xml_file(file_path: &Path) -> Result<String, ()> {
         let event = event.map_err(|err| {
             let TextPosition {row, column} = err.position();
             let msg = err.msg();
-            eprintln!("{file_path}:{row}:{column}: ERROR: {msg}", file_path = file_path.display());
+            eprintln!("ERROR: {file_path}:{row}:{column}: MESSAGE: {msg}", file_path = file_path.display());
         })?;
 
         if let XmlEvent::Characters(text) = event {

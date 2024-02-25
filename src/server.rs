@@ -87,7 +87,7 @@ fn serve_api_stats(model: Arc<Mutex<Model>>, request: Request) -> io::Result<()>
 }
 
 fn serve_request(model: Arc<Mutex<Model>>, request: Request) -> io::Result<()> {
-    println!("INFO: received request! method: {:?}, url: {:?}", request.method(), request.url());
+    println!("received request! method: {:?}, url: {:?}", request.method(), request.url());
 
     match (request.method(), request.url()) {
         (Method::Post, "/api/search") => {
@@ -119,7 +119,7 @@ pub fn start(address: &str, model: Arc<Mutex<Model>>) -> Result<(), ()> {
         eprintln!("ERROR: could not start HTTP server at {address}: {err}");
     })?;
 
-    println!("INFO: listening at http://{address}/");
+    println!("listening at http://{address}/");
 
     for request in server.incoming_requests() {
         serve_request(Arc::clone(&model), request).map_err(|err| {
