@@ -11,6 +11,11 @@ function showResults(json, results) {
         span_path.appendChild(document.createTextNode(path))
         li.appendChild(span_path)
 
+        const iframe = document.createElement('iframe')
+        iframe.src = `/static/${path}`
+        iframe.appendChild(document.createTextNode(path))
+        li.appendChild(iframe)
+
         ul.appendChild(li);
     }
 
@@ -31,14 +36,23 @@ async function search(prompt) {
 document.addEventListener("DOMContentLoaded", function(_) {
     const query = document.getElementById("query");
     const results = document.getElementById("results")
+    let delayTimer;
+    const delayTime = 300; // delay to search in ms
 
     query.addEventListener("keyup", async (e) => {
+        clearTimeout(delayTimer);
+
         const q = e.target.value
         results.innerHTML = ""
 
         if (!q) return
 
-        const result = await search(q)
-        showResults(result, results)
+        // TODO: implement delay to execute the search
+        delayTimer = setTimeout(function() {
+            // const result = await search(q)
+            // showResults(result, results)
+            search(q).then(result => showResults(result, results)).catch(e => console.error(e))
+        }, delayTime);
+
     })
 });

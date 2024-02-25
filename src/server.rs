@@ -97,16 +97,16 @@ fn serve_request(model: Arc<Mutex<Model>>, request: Request) -> io::Result<()> {
             serve_api_stats(model, request)
         }
         (Method::Get, "/index.css") => {
-            serve_bytes(request, include_bytes!("index.css"), "text/css")
+            serve_bytes(request, include_bytes!("../public/index.css"), "text/css")
         }
         (Method::Get, "/favicon.ico") => {
-            serve_bytes(request, include_bytes!("favicon.ico"), "image/x-icon")
+            serve_bytes(request, include_bytes!("../public/favicon.ico"), "image/x-icon")
         }
         (Method::Get, "/index.js") => {
-            serve_bytes(request, include_bytes!("index.js"), "text/javascript; charset=utf-8")
+            serve_bytes(request, include_bytes!("../public/index.js"), "text/javascript; charset=utf-8")
         }
         (Method::Get, "/") | (Method::Get, "/index.html") => {
-            serve_bytes(request, include_bytes!("index.html"), "text/html; charset=utf-8")
+            serve_bytes(request, include_bytes!("../public/index.html"), "text/html; charset=utf-8")
         }
         _ => {
             serve_404(request)
