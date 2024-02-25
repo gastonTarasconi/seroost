@@ -264,3 +264,5 @@ fn main() -> ExitCode {
 
 // TODO: search result must consist of clickable links
 // TODO: synonym terms
+// TODO: stemmer terms for spanish
+// TODO: when file is deleted should be remove from the indexes
