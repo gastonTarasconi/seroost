@@ -74,14 +74,3 @@ input[type="text"]:focus {
 .results-container ul:empty {
   display: none;
 }
-
-input {
-  /* padding: 20px; */
-  /* padding-bottom: 10px; */
-  /* border-style: solid; */
-  /* border-color: black; */
-  /* border-width: 4px; */
-  /* border-radius: 50px; */
-  /* font-size: 2rem; */
-}
-
