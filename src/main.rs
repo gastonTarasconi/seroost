@@ -85,6 +85,7 @@ fn parse_entire_file_by_extension(file_path: &Path) -> Result<String, ()> {
     match extension.as_ref() {
         "xhtml" | "xml" => parse_entire_xml_file(file_path),
         // TODO: specialized parser for markdown files
+        // TODO: specialized parser for docx
         "txt" | "md" => parse_entire_txt_file(file_path),
         "pdf" => parse_entire_pdf_file(file_path),
         _ => {
